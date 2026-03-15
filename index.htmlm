@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<div class="max-w-4xl mx-auto p-6">
+
+<h1 class="text-3xl font-bold mb-6">
+Panel de Usuario
+</h1>
+
+<p>
+Usuario: <span id="userEmail"></span>
+</p>
+
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3 class="text-xl mb-2">
+Balance
+</h3>
+
+<p class="text-3xl">
+$ <span id="balance"></span>
+</p>
+
+</div>
+
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3 class="mb-3">
+Ver anuncio
+</h3>
+
+<button onclick="watchAd()"
+class="bg-purple-500 px-6 py-3 rounded">
+Ver anuncio
+</button>
+
+</div>
+
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3>
+Tu link de referido
+</h3>
+
+<p id="refLink"></p>
+
+</div>
+
+<button onclick="logout()"
+class="bg-red-500 px-6 py-3 rounded mt-6">
+Cerrar sesión
+</button>
+
+</div>
+
+<script>
+
+let users = JSON.parse(localStorage.getItem("users"))
+
+let email = localStorage.getItem("currentUser")
+
+let currentUser = users.find(u => u.email === email)
+
+document.getElementById("userEmail").innerText = email
+
+document.getElementById("balance").innerText =
+currentUser.balance
+
+document.getElementById("refLink").innerText =
+location.origin + "?ref=" + email
+
+function watchAd(){
+
+currentUser.balance += 0.02
+
+document.getElementById("balance").innerText =
+currentUser.balance.toFixed(2)
+
+save()
+
+}
+
+function save(){
+
+localStorage.setItem("users",JSON.stringify(users))
+
+}
+
+function logout(){
+
+localStorage.removeItem("currentUser")
+
+location.href="index.html"
+
+}
+
+</script>
+
+</body>
+</html>
