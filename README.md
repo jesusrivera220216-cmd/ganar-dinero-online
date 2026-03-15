@@ -2,9 +2,8 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
-<title>DineroApp - Ganar Dinero Online</title>
+<title>DineroApp PRO</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -14,30 +13,15 @@
 
 <div class="max-w-4xl mx-auto p-6">
 
-<h1 class="text-4xl font-bold mb-6 text-center">
-💰 Plataforma Ganar Dinero Online
+<h1 class="text-4xl font-bold text-center mb-6">
+💰 DineroApp PRO
 </h1>
+
+<!-- HOME -->
 
 <div id="home">
 
-<div class="bg-gray-800 p-6 rounded-xl mb-6">
-
-<h2 class="text-2xl mb-2">
-📘 Ebook recomendado
-</h2>
-
-<p class="mb-4">
-La Biblia del Dinero Digital 2026
-</p>
-
-<button onclick="buyPDF()"
-class="bg-green-500 px-6 py-3 rounded">
-Comprar ahora
-</button>
-
-</div>
-
-<div class="bg-gray-800 p-6 rounded-xl">
+<div class="bg-gray-800 p-6 rounded mb-6">
 
 <h2 class="text-2xl mb-4">
 Crear cuenta
@@ -45,12 +29,16 @@ Crear cuenta
 
 <input id="email"
 placeholder="Correo"
-class="w-full p-3 mb-3 text-black">
+class="w-full p-3 text-black mb-3">
 
 <input id="pass"
 type="password"
 placeholder="Contraseña"
-class="w-full p-3 mb-4 text-black">
+class="w-full p-3 text-black mb-3">
+
+<input id="ref"
+placeholder="Código de referido (opcional)"
+class="w-full p-3 text-black mb-4">
 
 <button onclick="register()"
 class="bg-blue-500 px-6 py-3 rounded mr-2">
@@ -66,9 +54,11 @@ Entrar
 
 </div>
 
+<!-- DASHBOARD -->
+
 <div id="dashboard" class="hidden">
 
-<h2 class="text-3xl mt-6">
+<h2 class="text-2xl">
 Panel de usuario
 </h2>
 
@@ -77,10 +67,12 @@ Usuario:
 <span id="userEmail"></span>
 </p>
 
-<div class="bg-gray-800 p-6 rounded-xl mt-6">
+<!-- BALANCE -->
+
+<div class="bg-gray-800 p-6 rounded mt-6">
 
 <h3 class="text-xl mb-2">
-Ganancias
+Balance
 </h3>
 
 <p class="text-3xl">
@@ -89,10 +81,12 @@ $ <span id="balance">0</span>
 
 </div>
 
-<div class="bg-gray-800 p-6 rounded-xl mt-6">
+<!-- ANUNCIOS -->
 
-<h3 class="text-xl mb-4">
-Ver anuncio y ganar
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3 class="text-xl mb-3">
+Ver anuncios
 </h3>
 
 <button onclick="watchAd()"
@@ -102,33 +96,24 @@ Ver anuncio
 
 </div>
 
-<div class="bg-gray-800 p-6 rounded-xl mt-6">
+<!-- ENCUESTAS -->
 
-<h3 class="text-xl mb-2">
-Encuestas
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3 class="text-xl mb-3">
+Encuestas pagadas
 </h3>
 
 <button onclick="survey()"
 class="bg-yellow-500 px-6 py-3 rounded">
-Ir a encuesta
+Ir a encuestas
 </button>
 
 </div>
 
-<div class="bg-gray-800 p-6 rounded-xl mt-6">
+<!-- REFERIDOS -->
 
-<h3 class="text-xl mb-2">
-Comprar guía premium
-</h3>
-
-<button onclick="buyPDF()"
-class="bg-green-500 px-6 py-3 rounded">
-Comprar guía
-</button>
-
-</div>
-
-<div class="bg-gray-800 p-6 rounded-xl mt-6">
+<div class="bg-gray-800 p-6 rounded mt-6">
 
 <h3 class="text-xl mb-2">
 Tu link de referido
@@ -138,9 +123,22 @@ Tu link de referido
 
 </div>
 
-<div class="bg-gray-800 p-6 rounded-xl mt-6 text-center">
+<!-- RETIRO -->
 
-Espacio para anuncios (Adsense)
+<div class="bg-gray-800 p-6 rounded mt-6">
+
+<h3 class="text-xl mb-3">
+Solicitar retiro
+</h3>
+
+<input id="withdrawAmount"
+placeholder="Monto"
+class="p-3 text-black mb-3">
+
+<button onclick="withdraw()"
+class="bg-green-500 px-6 py-3 rounded">
+Solicitar retiro
+</button>
 
 </div>
 
@@ -157,20 +155,42 @@ Cerrar sesión
 
 let users = JSON.parse(localStorage.getItem("users") || "[]")
 
+let withdrawals = JSON.parse(localStorage.getItem("withdrawals") || "[]")
+
 let currentUser = null
 
 function register(){
 
 let email = document.getElementById("email").value
 let pass = document.getElementById("pass").value
+let ref = document.getElementById("ref").value
+
+if(!email || !pass){
+
+alert("Completa los campos")
+
+return
+
+}
+
+if(users.find(u => u.email === email)){
+
+alert("Este usuario ya existe")
+
+return
+
+}
 
 users.push({
+
 email,
 pass,
-balance:0
+balance:0,
+ref
+
 })
 
-localStorage.setItem("users",JSON.stringify(users))
+save()
 
 alert("Cuenta creada")
 
@@ -185,7 +205,13 @@ let user = users.find(
 u => u.email === email && u.pass === pass
 )
 
-if(user){
+if(!user){
+
+alert("Datos incorrectos")
+
+return
+
+}
 
 currentUser = user
 
@@ -197,12 +223,6 @@ document.getElementById("balance").innerText = user.balance
 
 document.getElementById("refLink").innerText =
 location.href + "?ref=" + email
-
-}else{
-
-alert("Datos incorrectos")
-
-}
 
 }
 
@@ -229,25 +249,39 @@ window.open("https://example.com","_blank")
 
 }
 
-function buyPDF(){
+function withdraw(){
 
-window.open("https://go.hotmart.com/TU_LINK","_blank")
+let amount =
+document.getElementById("withdrawAmount").value
+
+if(amount > currentUser.balance){
+
+alert("Saldo insuficiente")
+
+return
+
+}
+
+withdrawals.push({
+
+user:currentUser.email,
+amount:amount,
+status:"pendiente"
+
+})
+
+currentUser.balance -= amount
+
+save()
+
+alert("Solicitud enviada")
 
 }
 
 function save(){
 
 localStorage.setItem("users",JSON.stringify(users))
-
-}
-
-let params = new URLSearchParams(window.location.search)
-
-let ref = params.get("ref")
-
-if(ref){
-
-localStorage.setItem("referrer",ref)
+localStorage.setItem("withdrawals",JSON.stringify(withdrawals))
 
 }
 
