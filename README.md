@@ -1,174 +1,157 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Ganar Dinero Online</title>
+<title>DineroApp - Ganar Dinero Online</title>
 
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#0f172a;
-color:white;
-}
-
-header{
-background:#020617;
-padding:20px;
-text-align:center;
-}
-
-section{
-padding:40px;
-max-width:1000px;
-margin:auto;
-}
-
-button{
-background:#22c55e;
-border:none;
-padding:12px 20px;
-cursor:pointer;
-font-size:16px;
-border-radius:8px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-margin:20px 0;
-border-radius:10px;
-}
-
-input{
-padding:10px;
-margin:5px;
-}
-
-#dashboard{
-display:none;
-}
-
-.video{
-background:black;
-height:200px;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-top:10px;
-}
-
-.ad{
-background:#111827;
-padding:20px;
-text-align:center;
-margin-top:20px;
-}
-
-</style>
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
-<body>
+<body class="bg-gray-900 text-white">
 
-<header>
+<div class="max-w-4xl mx-auto p-6">
 
-<h1>💰 Plataforma Ganar Dinero Online</h1>
+<h1 class="text-4xl font-bold mb-6 text-center">
+💰 Plataforma Ganar Dinero Online
+</h1>
 
-<p>Videos, encuestas y productos digitales</p>
+<div id="home">
 
-</header>
+<div class="bg-gray-800 p-6 rounded-xl mb-6">
 
-<section id="home">
+<h2 class="text-2xl mb-2">
+📘 Ebook recomendado
+</h2>
 
-<div class="card">
+<p class="mb-4">
+La Biblia del Dinero Digital 2026
+</p>
 
-<h2>📘 Ebook recomendado</h2>
-
-<p>La Biblia del Dinero Digital 2026</p>
-
-<button onclick="buyPDF()">Comprar ahora</button>
-
-</div>
-
-<div class="card">
-
-<h2>📝 Crear cuenta</h2>
-
-<input id="email" placeholder="correo">
-
-<input id="pass" type="password" placeholder="contraseña">
-
-<br><br>
-
-<button onclick="register()">Registrarse</button>
-
-<button onclick="login()">Entrar</button>
+<button onclick="buyPDF()"
+class="bg-green-500 px-6 py-3 rounded">
+Comprar ahora
+</button>
 
 </div>
 
-</section>
+<div class="bg-gray-800 p-6 rounded-xl">
 
-<section id="dashboard">
+<h2 class="text-2xl mb-4">
+Crear cuenta
+</h2>
 
-<h2>Panel de usuario</h2>
+<input id="email"
+placeholder="Correo"
+class="w-full p-3 mb-3 text-black">
 
-<p id="user"></p>
+<input id="pass"
+type="password"
+placeholder="Contraseña"
+class="w-full p-3 mb-4 text-black">
 
-<div class="card">
+<button onclick="register()"
+class="bg-blue-500 px-6 py-3 rounded mr-2">
+Registrarse
+</button>
 
-<h3>📺 Ver video y ganar puntos</h3>
-
-<div class="video">
-
-VIDEO
-
-</div>
-
-<button onclick="watchVideo()">Ver anuncio</button>
-
-<p>Puntos: <span id="points">0</span></p>
-
-</div>
-
-<div class="card">
-
-<h3>📊 Encuestas pagadas</h3>
-
-<p>Completa encuestas y gana recompensas.</p>
-
-<button onclick="survey()">Ir a encuesta</button>
+<button onclick="login()"
+class="bg-green-500 px-6 py-3 rounded">
+Entrar
+</button>
 
 </div>
 
-<div class="card">
+</div>
 
-<h3>📘 Comprar mi guía premium</h3>
+<div id="dashboard" class="hidden">
 
-<button onclick="buyPDF()">Comprar guía</button>
+<h2 class="text-3xl mt-6">
+Panel de usuario
+</h2>
+
+<p class="mt-2">
+Usuario:
+<span id="userEmail"></span>
+</p>
+
+<div class="bg-gray-800 p-6 rounded-xl mt-6">
+
+<h3 class="text-xl mb-2">
+Ganancias
+</h3>
+
+<p class="text-3xl">
+$ <span id="balance">0</span>
+</p>
 
 </div>
 
-<div class="card">
+<div class="bg-gray-800 p-6 rounded-xl mt-6">
 
-<h3>👥 Tu link de referido</h3>
+<h3 class="text-xl mb-4">
+Ver anuncio y ganar
+</h3>
 
-<p id="ref"></p>
+<button onclick="watchAd()"
+class="bg-purple-500 px-6 py-3 rounded">
+Ver anuncio
+</button>
 
 </div>
 
-<div class="ad">
+<div class="bg-gray-800 p-6 rounded-xl mt-6">
 
-Espacio para anuncios
+<h3 class="text-xl mb-2">
+Encuestas
+</h3>
+
+<button onclick="survey()"
+class="bg-yellow-500 px-6 py-3 rounded">
+Ir a encuesta
+</button>
 
 </div>
 
-<br>
+<div class="bg-gray-800 p-6 rounded-xl mt-6">
 
-<button onclick="logout()">Cerrar sesión</button>
+<h3 class="text-xl mb-2">
+Comprar guía premium
+</h3>
 
-</section>
+<button onclick="buyPDF()"
+class="bg-green-500 px-6 py-3 rounded">
+Comprar guía
+</button>
+
+</div>
+
+<div class="bg-gray-800 p-6 rounded-xl mt-6">
+
+<h3 class="text-xl mb-2">
+Tu link de referido
+</h3>
+
+<p id="refLink"></p>
+
+</div>
+
+<div class="bg-gray-800 p-6 rounded-xl mt-6 text-center">
+
+Espacio para anuncios (Adsense)
+
+</div>
+
+<button onclick="logout()"
+class="bg-red-500 px-6 py-3 rounded mt-6">
+Cerrar sesión
+</button>
+
+</div>
+
+</div>
 
 <script>
 
@@ -184,7 +167,7 @@ let pass = document.getElementById("pass").value
 users.push({
 email,
 pass,
-points:0
+balance:0
 })
 
 localStorage.setItem("users",JSON.stringify(users))
@@ -198,7 +181,9 @@ function login(){
 let email = document.getElementById("email").value
 let pass = document.getElementById("pass").value
 
-let user = users.find(u=>u.email===email && u.pass===pass)
+let user = users.find(
+u => u.email === email && u.pass === pass
+)
 
 if(user){
 
@@ -207,16 +192,13 @@ currentUser = user
 document.getElementById("home").style.display="none"
 document.getElementById("dashboard").style.display="block"
 
-document.getElementById("user").innerText=email
+document.getElementById("userEmail").innerText = email
+document.getElementById("balance").innerText = user.balance
 
-document.getElementById("points").innerText=user.points
+document.getElementById("refLink").innerText =
+location.href + "?ref=" + email
 
-document.getElementById("ref").innerText=
-location.href+"?ref="+email
-
-}
-
-else{
+}else{
 
 alert("Datos incorrectos")
 
@@ -230,11 +212,12 @@ location.reload()
 
 }
 
-function watchVideo(){
+function watchAd(){
 
-currentUser.points+=5
+currentUser.balance += 0.02
 
-document.getElementById("points").innerText=currentUser.points
+document.getElementById("balance").innerText =
+currentUser.balance.toFixed(2)
 
 save()
 
@@ -255,6 +238,16 @@ window.open("https://go.hotmart.com/TU_LINK","_blank")
 function save(){
 
 localStorage.setItem("users",JSON.stringify(users))
+
+}
+
+let params = new URLSearchParams(window.location.search)
+
+let ref = params.get("ref")
+
+if(ref){
+
+localStorage.setItem("referrer",ref)
 
 }
 
